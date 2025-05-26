@@ -1,39 +1,34 @@
 {
-  "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What is the full form of FSK?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Frequency Serial Keying",
+        "b": "Frequency Shift Keying",
+        "c": "Fast Signal Keying",
+        "d": "Frequency Standard Keying"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "a",
-      "difficulty": "beginner"
+      "correctAnswer": "b"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "Which of the following is a prerequisite for digital modulation?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Analog signal",
+        "b": "Digital signal",
+        "c": "Noise signal",
+        "d": "Radio signal"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+      "correctAnswer": "b"
+    },
+    {
+      "question": "Which of the following is not a digital modulation technique?",
+      "answers": {
+        "a": "ASK",
+        "b": "FSK",
+        "c": "PSK",
+        "d": "AM"
       },
-      "correctAnswer": "c",
-      "difficulty": "beginner"
+      "correctAnswer": "d"
     }
   ]
 }
