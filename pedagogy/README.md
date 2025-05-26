@@ -5,13 +5,13 @@
 
 
 <br>
-<b> Experiment : Name of the experiment	 <a name="top"></a> <br>
+<b> Experiment : Study of frequency shift keying modulator & demodulator	 <a name="top"></a> <br>
 </p>
 
-<b>Discipline | Fill your discipline name here <b> 
+<b>Discipline | Electronics and communication engineering<b> 
 :--|:--|
-<b> Lab | Fill your lab name here<b> 
-<b> Experiment|  Fill your experiment name here   <b> 
+<b> Lab | <b> | Communication lab
+<b> Experiment|   Study of frequency shift keying modulator & demodulator	  <b> 
 
 
 <h4> [1. Focus Area](#LO)
@@ -22,7 +22,7 @@
 <hr>
 
 <a name="LO"></a>
-#### 1. Focus Area : Reinforce theoretical concept.
+#### 1. Focus Area : Experimentation.
 
 #### 2. Learning Objectives and Cognitive Level
 
