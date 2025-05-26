@@ -10,7 +10,7 @@
 
 <b>Discipline | Electronics and communication engineering<b> 
 :--|:--|
-<b> Lab | <b> | Communication lab
+<b> Lab | <b> | Communication engineering lab
 <b> Experiment|   Study of frequency shift keying modulator & demodulator	  <b> 
 
 
