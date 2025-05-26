@@ -23,6 +23,6 @@ SrNo | Name | Faculty or Student | Department| Institute | Email id
 :--|:--|:--|:--|:--|:--|
 01 |Rajeev Baghel | Faculty |EL |Rajkiya Eingeering College Kannauj | rajeev@reck.ac.in
 02 | Saurabh Maurya | Student | CSE| Rajkiya Eingeering College Kannauj| saurabhmauryasultan@gmail.com
-03 | Gopal Jaiawal | Student | EL |Rajkiya Eingeering College Kannauj| gopalreck27@gmail.com
+03 | Gopal Jaiswal | Student | EL |Rajkiya Eingeering College Kannauj| gopalreck27@gmail.com
 04 | Rajneesh Yadav |Student | EL | Rajkiya Eingeering College Kannauj|rajneeshyadav1718@gmail.com
 05 |Irashad Ansari |Student | EL | Rajkiya Eingeering College Kannauj | irsadansari619@gmail.com
