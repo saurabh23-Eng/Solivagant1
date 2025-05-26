@@ -6,7 +6,7 @@
         "a": "Same frequency",
         "b": "Different amplitudes",
         "c": "Two distinct frequencies",
-        "d": "Two different phases"
+        "d": "Two different phases",
       },
       "correctAnswer": "c"
     },
