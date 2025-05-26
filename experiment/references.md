@@ -5,7 +5,7 @@
 3. TutorialsPoint – Frequency Shift Keying: https://www.tutorialspoint.com/digital_communication/digital_communication_fsk.htm
 4. Electronics Tutorials – FSK Modulation: https://www.electronics-tutorials.ws/modulation/fsk.html
 
-5. ✅ Do’s
+5. Do’s
 Use the dev branch for all development work.
 
 This keeps unstable or in-progress changes isolated from the production environment.
