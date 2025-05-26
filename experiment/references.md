@@ -39,7 +39,7 @@ Document your code and experiment thoroughly.
 Add comments in JavaScript, describe simulation flow, and clarify logic.
 
 
-6. ❌ Don’ts
+6.  Don’ts
 Do not commit directly to the main branch.
 
 Only well-tested and approved content/code should be merged here.
