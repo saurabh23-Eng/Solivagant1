@@ -10,13 +10,28 @@
 
 <b>Discipline | Electronics and communication engineering<b> 
 :--|:--|
-<b> Lab | <b> | Communication engineering lab
+<b> Lab | Communication System or Digital Communication Lab <b> | Communication engineering lab
 <b> Experiment|   Study of frequency shift keying modulator & demodulator	  <b> 
 
 
 <h4> [1. Focus Area](#LO)
+    
+*Experimentation
 <h4> [2. Learning Objectives ](#LO)
+
+Learning Objective	Cognitive Level	Action Verb
+1.	Understand the working principle of FSK modulation and demodulation	Understanding	Describe, Explain
+2.	Analyze FSK modulated and demodulated waveforms for given binary input sequences	Analyzing	Interpret, Compare
+3.	Demonstrate the ability to configure and test FSK modulation and demodulation setup	Applying	Simulate, Execute
+   
 <h4> [3. Instructional Strategy](#IS)
+
+Name of Instructional Strategy: Simulation-Based Learning
+
+Assessment Method: Pretest/Posttest quizzes, in-simulation tasks, and reflection-based questions
+
+Description:
+The experiment uses a virtual lab simulation to help students visually and interactively understand the FSK technique. Learners input binary data, observe real-time waveform changes due to frequency shifts, and practice demodulation. Pretests are used to gauge initial understanding, while posttests evaluate concept retention. Simulation promotes experiential learning and self-paced exploration.
 <h4> [4. Task & Assessment Questions](#AQ)
 <h4> [5. Simulator Interactions](#SI)
 <hr>
