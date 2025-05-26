@@ -1,39 +1,34 @@
 {
-  "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "In FSK, binary 1 and 0 are represented by:",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Same frequency",
+        "b": "Different amplitudes",
+        "c": "Two distinct frequencies",
+        "d": "Two different phases"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "a",
-      "difficulty": "beginner"
+      "correctAnswer": "c"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "FSK modulation is primarily used for:",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Audio transmission",
+        "b": "Short-range analog communication",
+        "c": "Digital data transmission",
+        "d": "High-frequency analog signals"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+      "correctAnswer": "c"
+    },
+    {
+      "question": "What is the main advantage of FSK over ASK?",
+      "answers": {
+        "a": "Less bandwidth",
+        "b": "Better noise immunity",
+        "c": "Simpler hardware",
+        "d": "Lower power consumption"
       },
-      "correctAnswer": "c",
-      "difficulty": "beginner"
+      "correctAnswer": "b"
     }
   ]
 }
