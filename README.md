@@ -5,7 +5,7 @@
 <b>Discipline | <b>Electronics and Communication
 :--|:--|
 <b> Lab | <b>Communication lab
-<b> Experiment|     <b>
+<b> Experiment|     <b> Experiment name and number
 
 ### About the Experiment 
 
