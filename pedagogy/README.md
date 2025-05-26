@@ -10,7 +10,7 @@
 
 <b>Discipline | Electronics and communication engineering<b> 
 :--|:--|
-<b> Lab | Communication System or Digital Communication Lab <b> | Communication engineering lab
+<b> Lab | Communication System <b> | Communication engineering lab
 <b> Experiment|   Study of frequency shift keying modulator & demodulator	  <b> 
 
 
@@ -33,6 +33,7 @@ Assessment Method: Pretest/Posttest quizzes, in-simulation tasks, and reflection
 Description:
 The experiment uses a virtual lab simulation to help students visually and interactively understand the FSK technique. Learners input binary data, observe real-time waveform changes due to frequency shifts, and practice demodulation. Pretests are used to gauge initial understanding, while posttests evaluate concept retention. Simulation promotes experiential learning and self-paced exploration.
 <h4> [4. Task & Assessment Questions](#AQ)
+ 
 <h4> [5. Simulator Interactions](#SI)
 <hr>
 
