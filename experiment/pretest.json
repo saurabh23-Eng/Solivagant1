@@ -26,7 +26,7 @@
         "a": "Less bandwidth",
         "b": "Better noise immunity",
         "c": "Simpler hardware",
-        "d": "Lower power consumption"
+        "d": "Lower power consumption",
       },
       "correctAnswer": "b"
     }
