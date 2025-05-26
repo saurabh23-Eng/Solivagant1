@@ -21,7 +21,7 @@ Fill a brief description of this experiment here
 
 SrNo | Name | Faculty or Student | Department| Institute | Email id
 :--|:--|:--|:--|:--|:--|
-01 |Rajeev Baghel | Faculty |EL |RECK |
+01 |Rajeev Baghel | Faculty |EL |RECK | rajeev@reck.ac.in
 02 | Saurabh Maurya | Student | CSE| RECK | saurabhmauryasultan@gmail.com
 03 | Gopal Jaisawal | Student | EL | RECK| gopalreck27@gmail.com
 04 | Rajneesh Yadav |Student | EL | RECK |rajneeshyadav1718@gmail.com
