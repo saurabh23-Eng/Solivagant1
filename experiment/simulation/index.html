@@ -1,13 +1,191 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FSK Modulation Virtual Lab</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #004080;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #004080;
+    }
+
+    canvas {
+      display: block;
+      margin: 20px auto;
+      background: #fff;
+      border: 2px solid #004080;
+    }
+
+    input, button {
+      font-size: 16px;
+      padding: 10px;
+      margin: 10px 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #004080;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0066cc;
+    }
+
+    .legend span {
+      display: inline-block;
+      margin-right: 20px;
+      font-size: 14px;
+    }
+
+    .blue-dot::before {
+      content: "⬤";
+      color: blue;
+      margin-right: 5px;
+    }
+
+    .green-dot::before {
+      content: "⬤";
+      color: green;
+      margin-right: 5px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 14px;
+      padding: 20px;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
-		<!-- Your code goes here-->
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+  <header>
+    <h1>Virtual Lab Experiment: Frequency Shift Keying (FSK)</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Objective</h2>
+      <p>To study and simulate the working principle of Frequency Shift Keying (FSK) modulation using a virtual interactive waveform display.</p>
+    </section>
+
+    <section>
+      <h2>Theory</h2>
+      <p><strong>Frequency Shift Keying (FSK)</strong> is a digital modulation technique where binary data is represented using different frequencies:</p>
+      <ul>
+        <li>Binary 1 → High frequency (f<sub>1</sub>)</li>
+        <li>Binary 0 → Low frequency (f<sub>0</sub>)</li>
+      </ul>
+      <p>This is used in radio signals, modems, wireless communications, and IoT devices.</p>
+    </section>
+
+    <section>
+      <h2>Procedure</h2>
+      <ol>
+        <li>Enter a binary input (like <code>10101</code>) into the field below.</li>
+        <li>Click on "Generate FSK Signal".</li>
+        <li>Observe the frequency changes on the waveform plot below.</li>
+      </ol>
+      <input type="text" id="binaryInput" placeholder="Enter binary string (e.g., 10101)" />
+      <button onclick="drawFSK()">Generate FSK Signal</button>
+
+      <canvas id="fskCanvas" width="900" height="300"></canvas>
+
+      <div class="legend">
+        <span class="blue-dot">Binary 1 = High Frequency</span>
+        <span class="green-dot">Binary 0 = Low Frequency</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Result</h2>
+      <p>The waveform displays alternate frequencies for binary input. The high frequency corresponds to binary 1, and low frequency to binary 0.</p>
+    </section>
+
+    <section>
+      <h2>Conclusion</h2>
+      <p>This simulation helps in understanding how digital bits can be encoded using frequency changes. FSK is reliable for transmitting data over communication channels that require resistance to noise and interference.</p>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 Irshad Ansari | B.Tech Electronics Engineering | Virtual Lab Submission
+  </footer>
+
+  <script>
+    function drawFSK() {
+      const canvas = document.getElementById("fskCanvas");
+      const ctx = canvas.getContext("2d");
+      const binary = document.getElementById("binaryInput").value.trim();
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const amplitude = 50;
+      const offsetY = canvas.height / 2;
+      let x = 10;
+
+      for (let i = 0; i < binary.length; i++) {
+        const bit = binary[i];
+        const isHigh = bit === '1';
+        const freq = isHigh ? 0.5 : 0.2; // Adjusts waveform "tightness"
+        const cycles = 2;
+        const points = 60;
+        const step = (Math.PI * 2 * cycles) / points;
+
+        ctx.beginPath();
+        ctx.moveTo(x, offsetY);
+        for (let j = 0; j <= points; j++) {
+          const y = offsetY + amplitude * Math.sin(j * step * freq);
+          ctx.lineTo(x + j * 2, y);
+        }
+        ctx.strokeStyle = isHigh ? "blue" : "green";
+        ctx.stroke();
+
+        x += points * 2 + 10;
+      }
+
+      // Axis line
+      ctx.beginPath();
+      ctx.moveTo(0, offsetY);
+      ctx.lineTo(canvas.width, offsetY);
+      ctx.strokeStyle = "#333";
+      ctx.stroke();
+    }
+  </script>
+
 </body>
 </html>
+
