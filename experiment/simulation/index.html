@@ -1,191 +1,283 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FSK Modulation Virtual Lab</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f8ff;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #004080;
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-    }
-
-    main {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    section {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      color: #004080;
-    }
-
-    canvas {
-      display: block;
-      margin: 20px auto;
-      background: #fff;
-      border: 2px solid #004080;
-    }
-
-    input, button {
-      font-size: 16px;
-      padding: 10px;
-      margin: 10px 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      background-color: #004080;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #0066cc;
-    }
-
-    .legend span {
-      display: inline-block;
-      margin-right: 20px;
-      font-size: 14px;
-    }
-
-    .blue-dot::before {
-      content: "⬤";
-      color: blue;
-      margin-right: 5px;
-    }
-
-    .green-dot::before {
-      content: "⬤";
-      color: green;
-      margin-right: 5px;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 14px;
-      padding: 20px;
-      color: #666;
-    }
-  </style>
+    <title>FSK Modulation and Demodulation Virtual Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; }
+        .panel { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .controls { margin: 10px 0; }
+        button { padding: 8px 15px; margin: 5px; cursor: pointer; }
+        input, select { margin: 0 10px; }
+        table { border-collapse: collapse; margin: 10px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .block-diagram { text-align: center; margin: 20px 0; }
+        .block-diagram pre { background: #fff; padding: 10px; border-radius: 5px; white-space: pre-wrap; text-align: left; display: inline-block; }
+        .chart-container { width: 100%; height: 300px; }
+    </style>
 </head>
 <body>
+    <h1>Frequency Shift Keying (FSK) Modulation and Demodulation</h1>
+    
+   <div class="block-diagram">
+    <h3>Block Diagram</h3>
+    <div class="diagram-row">
+        <div class="block" style="background-color: #AEDFF7;">Binary Data<br>(1010...)</div>
+        <div class="arrow">→</div>
+        <div class="block" style="background-color: #C2F0C2;">FSK Modulator<br>(VCO: f1 for '1', f0 for '0')</div>
+        <div class="arrow">→</div>
+        <div class="block" style="background-color: #F9D5E5;">Transmission<br>Channel</div>
+    </div>
+    <div class="down-arrow">↓</div>
+    <div class="diagram-row">
+        <div class="block" style="background-color: #FFECB3;">Received Signal</div>
+        <div class="arrow">→</div>
+        <div class="block" style="background-color: #E6E6FA;">Bandpass Filters<br>(f1 and f0 paths)</div>
+        <div class="arrow">→</div>
+        <div class="block" style="background-color: #D1C4E9;">Envelope Detectors</div>
+    </div>
+    <div class="down-arrow">↓</div>
+    <div class="diagram-row">
+        <div class="block" style="background-color: #FFCCBC;">Comparator<br>(Decision Circuit)</div>
+        <div class="arrow">→</div>
+        <div class="block" style="background-color: #B2EBF2;">Recovered<br>Binary Data</div>
+    </div>
+</div>
 
-  <header>
-    <h1>Virtual Lab Experiment: Frequency Shift Keying (FSK)</h1>
-  </header>
 
-  <main>
-    <section>
-      <h2>Objective</h2>
-      <p>To study and simulate the working principle of Frequency Shift Keying (FSK) modulation using a virtual interactive waveform display.</p>
-    </section>
+    <div class="container">
+        <div class="panel" style="width: 30%;">
+            <h3>Controls</h3>
+            <div class="controls">
+                <label>Binary Input:</label>
+                <input type="text" id="binaryInput" value="10101010" pattern="[01]+">
+            </div>
+            <div class="controls">
+                <label>Bit Duration (ms):</label>
+                <input type="number" id="bitDuration" value="100" min="10" max="1000">
+            </div>
+            <div class="controls">
+                <label>Mark Freq (f1):</label>
+                <input type="number" id="freqMark" value="1000" min="100" max="5000"> Hz
+            </div>
+            <div class="controls">
+                <label>Space Freq (f0):</label>
+                <input type="number" id="freqSpace" value="500" min="100" max="5000"> Hz
+            </div>
+            <div class="controls">
+                <label>Noise Level:</label>
+                <input type="range" id="noiseLevel" min="0" max="1" step="0.1" value="0.2">
+                <span id="noiseValue">0.2</span>
+            </div>
+            
+            <button onclick="runSimulation()">Run Simulation</button>
+            <button onclick="clearAll()">Reset</button>
+            
+            <h3>Output Results</h3>
+            <div id="berDisplay">Bit Error Rate: 0%</div>
+        </div>
+        
+        <div class="panel" style="flex-grow: 1;">
+            <h3>Signals</h3>
+            <div class="chart-container"><canvas id="binaryChart"></canvas></div>
+            <div class="chart-container"><canvas id="fskChart"></canvas></div>
+            <div class="chart-container"><canvas id="demodChart"></canvas></div>
+            <div class="chart-container"><canvas id="outputChart"></canvas></div>
 
-    <section>
-      <h2>Theory</h2>
-      <p><strong>Frequency Shift Keying (FSK)</strong> is a digital modulation technique where binary data is represented using different frequencies:</p>
-      <ul>
-        <li>Binary 1 → High frequency (f<sub>1</sub>)</li>
-        <li>Binary 0 → Low frequency (f<sub>0</sub>)</li>
-      </ul>
-      <p>This is used in radio signals, modems, wireless communications, and IoT devices.</p>
-    </section>
+            <div class="panel" style="margin-top: 20px;">
+                <h3>Report</h3>
+                <div id="reportContent">
+                    <p>No simulation run yet.</p>
+                </div>
+                <button onclick="downloadReport()">Download Report as PDF</button>
+            </div>
+        </div>
+    </div>
 
-    <section>
-      <h2>Procedure</h2>
-      <ol>
-        <li>Enter a binary input (like <code>10101</code>) into the field below.</li>
-        <li>Click on "Generate FSK Signal".</li>
-        <li>Observe the frequency changes on the waveform plot below.</li>
-      </ol>
-      <input type="text" id="binaryInput" placeholder="Enter binary string (e.g., 10101)" />
-      <button onclick="drawFSK()">Generate FSK Signal</button>
+    <script>
+        const binaryCtx = document.getElementById('binaryChart').getContext('2d');
+        const fskCtx = document.getElementById('fskChart').getContext('2d');
+        const demodCtx = document.getElementById('demodChart').getContext('2d');
+        const outputCtx = document.getElementById('outputChart').getContext('2d');
 
-      <canvas id="fskCanvas" width="900" height="300"></canvas>
+        const binaryChart = new Chart(binaryCtx, {
+            type: 'line',
+            data: { datasets: [{ label: 'Binary Input', borderColor: 'blue', data: [], borderWidth: 1, pointRadius: 0 }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: -0.1, max: 1.1 } } }
+        });
+        const fskChart = new Chart(fskCtx, {
+            type: 'line',
+            data: { datasets: [{ label: 'FSK Signal', borderColor: 'green', data: [], borderWidth: 1, pointRadius: 0 }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: -1.5, max: 1.5 } } }
+        });
+        const demodChart = new Chart(demodCtx, {
+            type: 'line',
+            data: { datasets: [
+                { label: 'f1 Path', borderColor: 'red', data: [], borderWidth: 1, pointRadius: 0 },
+                { label: 'f0 Path', borderColor: 'purple', data: [], borderWidth: 1, pointRadius: 0 }
+            ]},
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+        const outputChart = new Chart(outputCtx, {
+            type: 'line',
+            data: { datasets: [{ label: 'Recovered Binary', borderColor: 'orange', data: [], borderWidth: 1, pointRadius: 0 }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: -0.1, max: 1.1 } } }
+        });
 
-      <div class="legend">
-        <span class="blue-dot">Binary 1 = High Frequency</span>
-        <span class="green-dot">Binary 0 = Low Frequency</span>
-      </div>
-    </section>
+        document.getElementById('noiseLevel').oninput = function() {
+            document.getElementById('noiseValue').textContent = this.value;
+        };
 
-    <section>
-      <h2>Result</h2>
-      <p>The waveform displays alternate frequencies for binary input. The high frequency corresponds to binary 1, and low frequency to binary 0.</p>
-    </section>
+        function runSimulation() {
+            const binaryData = document.getElementById('binaryInput').value;
+            if (!/^[01]+$/.test(binaryData)) {
+                alert("Please enter only binary digits (0s and 1s)");
+                return;
+            }
 
-    <section>
-      <h2>Conclusion</h2>
-      <p>This simulation helps in understanding how digital bits can be encoded using frequency changes. FSK is reliable for transmitting data over communication channels that require resistance to noise and interference.</p>
-    </section>
-  </main>
+            const bitDuration = parseInt(document.getElementById('bitDuration').value);
+            const freqMark = parseInt(document.getElementById('freqMark').value);
+            const freqSpace = parseInt(document.getElementById('freqSpace').value);
+            const noiseLevel = parseFloat(document.getElementById('noiseLevel').value);
+            const sampleRate = 10000;
+            const samplesPerBit = Math.round(bitDuration * sampleRate / 1000);
+            const totalSamples = binaryData.length * samplesPerBit;
+            const time = Array.from({length: totalSamples}, (_, i) => i * 1000 / sampleRate);
 
-  <footer>
-   B.Tech Electronics Engineering | Virtual Lab Submission
-  </footer>
+            const binarySignal = [];
+            for (let i = 0; i < binaryData.length; i++) {
+                const bit = parseInt(binaryData[i]);
+                binarySignal.push(...Array(samplesPerBit).fill(bit));
+            }
 
-  <script>
-    function drawFSK() {
-      const canvas = document.getElementById("fskCanvas");
-      const ctx = canvas.getContext("2d");
-      const binary = document.getElementById("binaryInput").value.trim();
+            const fskSignal = [];
+            for (let i = 0; i < binaryData.length; i++) {
+                const freq = binaryData[i] === '1' ? freqMark : freqSpace;
+                for (let j = 0; j < samplesPerBit; j++) {
+                    const t = (i * samplesPerBit + j) / sampleRate;
+                    let signal = Math.sin(2 * Math.PI * freq * t);
+                    signal += (Math.random() - 0.5) * noiseLevel;
+                    fskSignal.push(signal);
+                }
+            }
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const f1Path = [], f0Path = [];
+            let f1Env = 0, f0Env = 0, alpha = 0.05;
+            for (let i = 0; i < fskSignal.length; i++) {
+                const t = i / sampleRate;
+                const f1Comp = fskSignal[i] * Math.sin(2 * Math.PI * freqMark * t);
+                const f0Comp = fskSignal[i] * Math.sin(2 * Math.PI * freqSpace * t);
+                f1Env = alpha * Math.abs(f1Comp) + (1 - alpha) * f1Env;
+                f0Env = alpha * Math.abs(f0Comp) + (1 - alpha) * f0Env;
+                f1Path.push(f1Env);
+                f0Path.push(f0Env);
+            }
 
-      const amplitude = 50;
-      const offsetY = canvas.height / 2;
-      let x = 10;
+            const outputBinary = [];
+            let errorCount = 0;
+            for (let i = 0; i < binaryData.length; i++) {
+                const startIdx = i * samplesPerBit;
+                const endIdx = startIdx + samplesPerBit;
+                const f1Avg = f1Path.slice(startIdx, endIdx).reduce((a,b) => a + b, 0) / samplesPerBit;
+                const f0Avg = f0Path.slice(startIdx, endIdx).reduce((a,b) => a + b, 0) / samplesPerBit;
+                const detectedBit = f1Avg > f0Avg ? 1 : 0;
+                outputBinary.push(...Array(samplesPerBit).fill(detectedBit));
+                if (detectedBit !== parseInt(binaryData[i])) errorCount++;
+            }
 
-      for (let i = 0; i < binary.length; i++) {
-        const bit = binary[i];
-        const isHigh = bit === '1';
-        const freq = isHigh ? 0.5 : 0.2; // Adjusts waveform "tightness"
-        const cycles = 2;
-        const points = 60;
-        const step = (Math.PI * 2 * cycles) / points;
+            const ber = (errorCount / binaryData.length * 100).toFixed(2);
+            document.getElementById('berDisplay').textContent = `Bit Error Rate: ${ber}%`;
 
-        ctx.beginPath();
-        ctx.moveTo(x, offsetY);
-        for (let j = 0; j <= points; j++) {
-          const y = offsetY + amplitude * Math.sin(j * step * freq);
-          ctx.lineTo(x + j * 2, y);
+            updateChart(binaryChart, time, binarySignal, 'Binary Input', 'blue');
+            updateChart(fskChart, time, fskSignal, 'FSK Modulated Signal', 'green');
+            updateMultiChart(demodChart, time, [f1Path, f0Path], ['f1 Path', 'f0 Path'], ['red', 'purple']);
+            updateChart(outputChart, time, outputBinary, 'Recovered Binary', 'orange');
+
+            const recovered = outputBinary.filter((_, i) => i % samplesPerBit === 0).join('');
+            document.getElementById('reportContent').innerHTML = `
+                <p><strong>Date & Time:</strong> ${new Date().toLocaleString()}</p>
+                <p><strong>Binary Input:</strong> ${binaryData}</p>
+                <p><strong>Bit Duration:</strong> ${bitDuration} ms</p>
+                <p><strong>Frequencies:</strong> f1 = ${freqMark} Hz, f0 = ${freqSpace} Hz</p>
+                <p><strong>Noise Level:</strong> ${noiseLevel}</p>
+                <p><strong>Bit Error Rate:</strong> ${ber}%</p>
+                <p><strong>Recovered Output:</strong> ${recovered}</p>
+            `;
         }
-        ctx.strokeStyle = isHigh ? "blue" : "green";
-        ctx.stroke();
 
-        x += points * 2 + 10;
-      }
+        function updateChart(chart, labels, data, label, color) {
+            chart.data.labels = labels;
+            chart.data.datasets = [{
+                label: label, data: data, borderColor: color, borderWidth: 1, pointRadius: 0
+            }];
+            chart.update();
+        }
 
-      // Axis line
-      ctx.beginPath();
-      ctx.moveTo(0, offsetY);
-      ctx.lineTo(canvas.width, offsetY);
-      ctx.strokeStyle = "#333";
-      ctx.stroke();
-    }
-  </script>
+        function updateMultiChart(chart, labels, dataArray, labelsArray, colorsArray) {
+            chart.data.labels = labels;
+            chart.data.datasets = dataArray.map((data, i) => ({
+                label: labelsArray[i], data: data, borderColor: colorsArray[i], borderWidth: 1, pointRadius: 0
+            }));
+            chart.update();
+        }
 
+        function clearAll() {
+            [binaryChart, fskChart, demodChart, outputChart].forEach(chart => {
+                chart.data.labels = [];
+                chart.data.datasets.forEach(ds => ds.data = []);
+                chart.update();
+            });
+            document.getElementById('berDisplay').textContent = 'Bit Error Rate: 0%';
+            document.getElementById('reportContent').innerHTML = '<p>No simulation run yet.</p>';
+        }
+
+        async function downloadReport() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+            let y = 10;
+
+            pdf.setFontSize(18);
+            pdf.text("FSK Modulation & Demodulation Report", 10, y);
+            y += 10;
+
+            pdf.setFontSize(12);
+            const reportText = document.getElementById("reportContent").innerText;
+            const lines = pdf.splitTextToSize(reportText, 180);
+            pdf.text(lines, 10, y);
+            y += lines.length * 6 + 5;
+
+            const preElement = document.querySelector(".block-diagram pre");
+            if (preElement) {
+                const blockText = preElement.innerText;
+                pdf.setFontSize(10);
+                const blockLines = pdf.splitTextToSize(blockText, 180);
+                pdf.text("Block Diagram:", 10, y);
+                y += 5;
+                pdf.text(blockLines, 10, y);
+                y += blockLines.length * 5 + 5;
+            }
+
+            const addChartImage = async (canvasId, label) => {
+                const canvas = document.getElementById(canvasId);
+                const imgData = canvas.toDataURL("image/png");
+                if (y > 250) { pdf.addPage(); y = 10; }
+                pdf.setFontSize(12);
+                pdf.text(label, 10, y);
+                y += 5;
+                pdf.addImage(imgData, "PNG", 10, y, 180, 60);
+                y += 65;
+            };
+
+            await addChartImage("binaryChart", "Binary Input Signal");
+            await addChartImage("fskChart", "FSK Modulated Signal");
+            await addChartImage("demodChart", "Demodulated Paths");
+            await addChartImage("outputChart", "Recovered Binary Signal");
+
+            pdf.save("FSK_Report.pdf");
+        }
+    </script>
 </body>
 </html>
-
