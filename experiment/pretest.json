@@ -6,9 +6,10 @@
         "a": "Same frequency",
         "b": "Different amplitudes",
         "c": "Two distinct frequencies",
-        "d": "Two different phases",
+        "d": "Two different phases"
       },
-      "correctAnswer": "c"
+      "correctAnswer": "c",
+      "explanation": "In Frequency Shift Keying (FSK), binary 1 and 0 are represented by two different frequencies. This allows the receiver to distinguish between the bits based on frequency changes."
     },
     {
       "question": "FSK modulation is primarily used for:",
@@ -16,9 +17,10 @@
         "a": "Audio transmission",
         "b": "Short-range analog communication",
         "c": "Digital data transmission",
-        "d": "High-frequency analog signals",
+        "d": "High-frequency analog signals"
       },
-      "correctAnswer": "c"
+      "correctAnswer": "c",
+      "explanation": "FSK is commonly used for transmitting digital data over communication channels because it is more robust to noise compared to amplitude-based schemes."
     },
     {
       "question": "What is the main advantage of FSK over ASK?",
@@ -26,9 +28,10 @@
         "a": "Less bandwidth",
         "b": "Better noise immunity",
         "c": "Simpler hardware",
-        "d": "Lower power consumption",
+        "d": "Lower power consumption"
       },
-      "correctAnswer": "b"
+      "correctAnswer": "b",
+      "explanation": "FSK has better noise immunity than Amplitude Shift Keying (ASK) because frequency variations are less affected by noise than amplitude changes."
     }
   ]
 }
