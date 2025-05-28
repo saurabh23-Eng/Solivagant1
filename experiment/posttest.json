@@ -8,7 +8,8 @@
         "c": "Fast Signal Keying",
         "d": "Frequency Standard Keying"
       },
-      "correctAnswer": "b"
+      "correctAnswer": "b",
+      "explanation": "FSK stands for Frequency Shift Keying, a digital modulation technique where the frequency of the carrier signal is shifted to represent binary data."
     },
     {
       "question": "Which of the following is a prerequisite for digital modulation?",
@@ -18,7 +19,8 @@
         "c": "Noise signal",
         "d": "Radio signal"
       },
-      "correctAnswer": "b"
+      "correctAnswer": "b",
+      "explanation": "Digital modulation requires a digital signal as input, which it encodes into analog waveforms suitable for transmission."
     },
     {
       "question": "Which of the following is not a digital modulation technique?",
@@ -28,7 +30,8 @@
         "c": "PSK",
         "d": "AM"
       },
-      "correctAnswer": "d"
+      "correctAnswer": "d",
+      "explanation": "AM (Amplitude Modulation) is an analog modulation technique, unlike ASK, FSK, and PSK which are used in digital modulation."
     }
   ]
 }
