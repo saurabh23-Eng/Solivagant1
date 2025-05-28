@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FSK Modulation and Demodulation Virtual Lab</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; }
+        .panel { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .controls { margin: 10px 0; }
+        button { padding: 8px 15px; margin: 5px; cursor: pointer; }
+        input, select { margin: 0 10px; }
+        table { border-collapse: collapse; margin: 10px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .block-diagram { text-align: center; margin: 20px 0; }
+        .block-diagram pre { background: #fff; padding: 10px; border-radius: 5px; }
+        .chart-container { width: 100%; height: 300px; }
+    </style>
+</head>
+<body>
+    <h1>Frequency Shift Keying (FSK) Modulation and Demodulation</h1>
+    
+    <div class="block-diagram">
+        <h3>Block Diagram</h3>
+        <pre>
+        +---------------+       +-------------------+       +-------------------+
+        |               |       |                   |       |                   |
+        | Binary Data   |------>| FSK Modulator     |------>| Transmission      |
+        | (1010...)    |       | (VCO: f1 for '1'  |       | Channel           |
+        |               |       |       f0 for '0') |       |                   |
+        +---------------+       +-------------------+       +-------------------+
+                                                                       |
+                                                                       v
+        +---------------+       +-------------------+       +-------------------+
+        |               |       |                   |       |                   |
+        | Received      |------>| Bandpass Filters  |------>| Envelope          |
+        | Signal       |       | (f1 and f0 paths) |       | Detectors         |
+        |               |       |                   |       |                   |
+        +---------------+       +-------------------+       +-------------------+
+                                                                       |
+                                                                       v
+        +---------------+       +-------------------+
+        |               |       |                   |
+        | Comparator   |------>| Recovered         |
+        | (Decision    |       | Binary Data       |
+        | Circuit)     |       |                   |
+        +---------------+       +-------------------+
+        </pre>
+    </div>
+
+    <div class="container">
+        <div class="panel" style="width: 30%;">
+            <h3>Controls</h3>
+            <div class="controls">
+                <label>Binary Input:</label>
+                <input type="text" id="binaryInput" value="10101010" pattern="[01]+">
+            </div>
+            <div class="controls">
+                <label>Bit Duration (ms):</label>
+                <input type="number" id="bitDuration" value="100" min="10" max="1000">
+            </div>
+            <div class="controls">
+                <label>Mark Freq (f1):</label>
+                <input type="number" id="freqMark" value="1000" min="100" max="5000"> Hz
+            </div>
+            <div class="controls">
+                <label>Space Freq (f0):</label>
+                <input type="number" id="freqSpace" value="500" min="100" max="5000"> Hz
+            </div>
+            <div class="controls">
+                <label>Noise Level:</label>
+                <input type="range" id="noiseLevel" min="0" max="1" step="0.1" value="0.2">
+                <span id="noiseValue">0.2</span>
+            </div>
+            
+            <button onclick="runSimulation()">Run Simulation</button>
+            <button onclick="clearAll()">Reset</button>
+            
+            <h3>Output Results</h3>
+            <div id="berDisplay">Bit Error Rate: 0%</div>
+        </div>
+        
+        <div class="panel" style="flex-grow: 1;">
+            <h3>Signals</h3>
+            <div class="chart-container">
+                <canvas id="binaryChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="fskChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="demodChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="outputChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize charts
+        const binaryCtx = document.getElementById('binaryChart').getContext('2d');
+        const fskCtx = document.getElementById('fskChart').getContext('2d');
+        const demodCtx = document.getElementById('demodChart').getContext('2d');
+        const outputCtx = document.getElementById('outputChart').getContext('2d');
+        
+        const binaryChart = new Chart(binaryCtx, {
+            type: 'line',
+            data: { datasets: [{ label: 'Binary Input', borderColor: 'blue', data: [], borderWidth: 1, pointRadius: 0 }] },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                scales: { y: { min: -0.1, max: 1.1 } }
+            }
+        });
+        
+        const fskChart = new Chart(fskCtx, {
+            type: 'line',
+            data: { datasets: [{ label: 'FSK Signal', borderColor: 'green', data: [], borderWidth: 1, pointRadius: 0 }] },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                scales: { y: { min: -1.5, max: 1.5 } }
+            }
+        });
+        
+        const demodChart = new Chart(demodCtx, {
+            type: 'line',
+            data: { datasets: [
+                { label: 'f1 Path', borderColor: 'red', data: [], borderWidth: 1, pointRadius: 0 },
+                { label: 'f0 Path', borderColor: 'purple', data: [], borderWidth: 1, pointRadius: 0 }
+            ]},
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                scales: { y: { min: -0.1 } }
+            }
+        });
+        
+        const outputChart = new Chart(outputCtx, {
+            type: 'line',
+            data: { datasets: [{ label: 'Recovered Binary', borderColor: 'orange', data: [], borderWidth: 1, pointRadius: 0 }] },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                scales: { y: { min: -0.1, max: 1.1 } }
+            }
+        });
+
+        // Noise level display
+        document.getElementById('noiseLevel').oninput = function() {
+            document.getElementById('noiseValue').textContent = this.value;
+        };
+
+        // Main simulation function
+        function runSimulation() {
+            // Get input parameters
+            const binaryData = document.getElementById('binaryInput').value;
+            if (!/^[01]+$/.test(binaryData)) {
+                alert("Please enter only binary digits (0s and 1s)");
+                return;
+            }
+            
+            const bitDuration = parseInt(document.getElementById('bitDuration').value);
+            const freqMark = parseInt(document.getElementById('freqMark').value);
+            const freqSpace = parseInt(document.getElementById('freqSpace').value);
+            const noiseLevel = parseFloat(document.getElementById('noiseLevel').value);
+            const sampleRate = 10000; // Fixed for this simulation
+            
+            // Generate time array
+            const totalTime = binaryData.length * bitDuration;
+            const samplesPerBit = Math.round(bitDuration * sampleRate / 1000);
+            const totalSamples = binaryData.length * samplesPerBit;
+            const time = Array.from({length: totalSamples}, (_, i) => i * 1000 / sampleRate);
+            
+            // Generate binary signal (for display)
+            const binarySignal = [];
+            for (let i = 0; i < binaryData.length; i++) {
+                const bit = parseInt(binaryData[i]);
+                binarySignal.push(...Array(samplesPerBit).fill(bit));
+            }
+            
+            // Generate FSK signal
+            const fskSignal = [];
+            let phase1 = 0, phase0 = 0;
+            
+            for (let i = 0; i < binaryData.length; i++) {
+                const bit = parseInt(binaryData[i]);
+                const freq = bit ? freqMark : freqSpace;
+                
+                for (let j = 0; j < samplesPerBit; j++) {
+                    const t = (i * samplesPerBit + j) / sampleRate;
+                    
+                    // Maintain phase continuity
+                    if (j === 0) {
+                        phase1 = bit ? phase1 : 0;
+                        phase0 = bit ? 0 : phase0;
+                    }
+                    
+                    let signal;
+                    if (bit) {
+                        signal = Math.sin(2 * Math.PI * freqMark * t + phase1);
+                        phase1 = (2 * Math.PI * freqMark * t + phase1) % (2 * Math.PI);
+                    } else {
+                        signal = Math.sin(2 * Math.PI * freqSpace * t + phase0);
+                        phase0 = (2 * Math.PI * freqSpace * t + phase0) % (2 * Math.PI);
+                    }
+                    
+                    // Add noise
+                    signal += (Math.random() - 0.5) * noiseLevel;
+                    fskSignal.push(signal);
+                }
+            }
+            
+            // Demodulation - Bandpass filtering (simplified)
+            const f1Path = [];
+            const f0Path = [];
+            let f1Env = 0, f0Env = 0;
+            const alpha = 0.05; // Smoothing factor
+            
+            for (let i = 0; i < fskSignal.length; i++) {
+                const t = i / sampleRate;
+                
+                // Multiply by reference frequencies (coherent detection)
+                const f1Component = fskSignal[i] * Math.sin(2 * Math.PI * freqMark * t);
+                const f0Component = fskSignal[i] * Math.sin(2 * Math.PI * freqSpace * t);
+                
+                // Low-pass filter (envelope detection)
+                f1Env = alpha * Math.abs(f1Component) + (1 - alpha) * f1Env;
+                f0Env = alpha * Math.abs(f0Component) + (1 - alpha) * f0Env;
+                
+                f1Path.push(f1Env);
+                f0Path.push(f0Env);
+            }
+            
+            // Decision circuit and output
+            const outputBinary = [];
+            let errorCount = 0;
+            
+            for (let i = 0; i < binaryData.length; i++) {
+                const startIdx = i * samplesPerBit;
+                const endIdx = startIdx + samplesPerBit;
+                
+                // Average over the bit duration
+                const f1Avg = f1Path.slice(startIdx, endIdx).reduce((a,b) => a + b, 0) / samplesPerBit;
+                const f0Avg = f0Path.slice(startIdx, endIdx).reduce((a,b) => a + b, 0) / samplesPerBit;
+                
+                const detectedBit = f1Avg > f0Avg ? 1 : 0;
+                outputBinary.push(...Array(samplesPerBit).fill(detectedBit));
+                
+                // Count errors
+                if (detectedBit !== parseInt(binaryData[i])) errorCount++;
+            }
+            
+            // Calculate Bit Error Rate
+            const ber = (errorCount / binaryData.length * 100).toFixed(2);
+            document.getElementById('berDisplay').textContent = `Bit Error Rate: ${ber}%`;
+            
+            // Update charts
+            updateChart(binaryChart, time, binarySignal, 'Binary Input', 'blue');
+            updateChart(fskChart, time, fskSignal, 'FSK Modulated Signal', 'green');
+            updateMultiChart(demodChart, time, [f1Path, f0Path], ['f1 Path', 'f0 Path'], ['red', 'purple']);
+            updateChart(outputChart, time, outputBinary, 'Recovered Binary', 'orange');
+        }
+        
+        function updateChart(chart, labels, data, label, color) {
+            chart.data.labels = labels;
+            chart.data.datasets = [{
+                label: label,
+                data: data,
+                borderColor: color,
+                borderWidth: 1,
+                pointRadius: 0
+            }];
+            chart.update();
+        }
+        
+        function updateMultiChart(chart, labels, dataArray, labelsArray, colorsArray) {
+            chart.data.labels = labels;
+            chart.data.datasets = dataArray.map((data, i) => ({
+                label: labelsArray[i],
+                data: data,
+                borderColor: colorsArray[i],
+                borderWidth: 1,
+                pointRadius: 0
+            }));
+            chart.update();
+        }
+        
+        function clearAll() {
+            [binaryChart, fskChart, demodChart, outputChart].forEach(chart => {
+                chart.data.labels = [];
+                chart.data.datasets.forEach(ds => ds.data = []);
+                chart.update();
+            });
+            document.getElementById('berDisplay').textContent = 'Bit Error Rate: 0%';
+        }
+    </script>
+</body>
+</html>
