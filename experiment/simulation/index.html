@@ -15,38 +15,16 @@
         table { border-collapse: collapse; margin: 10px 0; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
         .block-diagram { text-align: center; margin: 20px 0; }
-        .block-diagram pre { background: #fff; padding: 10px; border-radius: 5px; white-space: pre-wrap; text-align: left; display: inline-block; }
         .chart-container { width: 100%; height: 300px; }
     </style>
-</head>
+</head>  
 <body>
     <h1>Frequency Shift Keying (FSK) Modulation and Demodulation</h1>
-    
-   <div class="block-diagram">
-    <h3>Block Diagram</h3>
-    <div class="diagram-row">
-        <div class="block" style="background-color: #AEDFF7;">Binary Data<br>(1010...)</div>
-        <div class="arrow">→</div>
-        <div class="block" style="background-color: #C2F0C2;">FSK Modulator<br>(VCO: f1 for '1', f0 for '0')</div>
-        <div class="arrow">→</div>
-        <div class="block" style="background-color: #F9D5E5;">Transmission<br>Channel</div>
-    </div>
-    <div class="down-arrow">↓</div>
-    <div class="diagram-row">
-        <div class="block" style="background-color: #FFECB3;">Received Signal</div>
-        <div class="arrow">→</div>
-        <div class="block" style="background-color: #E6E6FA;">Bandpass Filters<br>(f1 and f0 paths)</div>
-        <div class="arrow">→</div>
-        <div class="block" style="background-color: #D1C4E9;">Envelope Detectors</div>
-    </div>
-    <div class="down-arrow">↓</div>
-    <div class="diagram-row">
-        <div class="block" style="background-color: #FFCCBC;">Comparator<br>(Decision Circuit)</div>
-        <div class="arrow">→</div>
-        <div class="block" style="background-color: #B2EBF2;">Recovered<br>Binary Data</div>
-    </div>
-</div>
 
+    <div class="block-diagram">
+        <h3>Block Diagram</h3>
+        <img src="FSK-Modulator-block-diagram.ppm" alt="FSK Block Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
 
     <div class="container">
         <div class="panel" style="width: 30%;">
@@ -249,17 +227,6 @@
             pdf.text(lines, 10, y);
             y += lines.length * 6 + 5;
 
-            const preElement = document.querySelector(".block-diagram pre");
-            if (preElement) {
-                const blockText = preElement.innerText;
-                pdf.setFontSize(10);
-                const blockLines = pdf.splitTextToSize(blockText, 180);
-                pdf.text("Block Diagram:", 10, y);
-                y += 5;
-                pdf.text(blockLines, 10, y);
-                y += blockLines.length * 5 + 5;
-            }
-
             const addChartImage = async (canvasId, label) => {
                 const canvas = document.getElementById(canvasId);
                 const imgData = canvas.toDataURL("image/png");
@@ -281,4 +248,3 @@
     </script>
 </body>
 </html>
-
