@@ -5,8 +5,8 @@ In digital communication, data is transmitted in binary form (0s and 1s). To tra
 
 One common type of digital modulation is **Frequency Shift Keying** (FSK).
 ### 2. What is Frequency Shift Keying (FSK)?
-FSK is a digital modulation technique in which the frequency of a carrier signal is varied according to the digital input data:
-- **Binary '1'** is represented by a **high-frequency**(f1)  carrier wave.
+FSK is a digital modulation technique in which the frequency of a carrier signal is varied according to the digital input data.
+- **Binary '1'** is represented by a **high-frequency** (f1)  carrier wave.
 - **Binary '0'** is represented by a **low-frequency** (f0) carrier wave.
 > This creates a waveform where the frequency of the signal "shifts" between two discrete values based on the binary data, hence the name **Frequency Shift Keying**.
 > It is a type of continuous-phase frequency modulation, meaning the phase of the carrier signal is not interrupted.
