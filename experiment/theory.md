@@ -96,6 +96,8 @@ In simple non-coherent FSK demodulators:
 
 
 ### 6. Block Diagram 
+![Untitled Diagram drawio](https://github.com/user-attachments/assets/561fe149-e05f-4c7e-aa66-928a6c9b2270)
+
 
 
 
