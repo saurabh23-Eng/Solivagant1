@@ -11,29 +11,19 @@ FSK is a digital modulation technique in which the frequency of a carrier signal
 > This creates a waveform where the frequency of the signal "shifts" between two discrete values based on the binary data, hence the name **Frequency Shift Keying**.
 > It is a type of continuous-phase frequency modulation, meaning the phase of the carrier signal is not interrupted.
 ### 3. Mathematical Representation
+An FSK signal can be represented as:
 
-Let the binary data signal be \( b(t) \), where:
-- \( b(t) = 1 \) represents logic high,
-- \( b(t) = 0 \) represents logic low.
+s(t) = Acos(2πf₁t)  for binary **1**  
+s(t) = Acos(2πf₀t)  for binary **0**
 
-Let:
-- \( f_1 \) = Frequency for binary 1
-- \( f_2 \) = Frequency for binary 0
-- \( A \) = Amplitude of the signal
+Where:
 
-Then, the FSK signal \( s(t) \) can be represented as:
+A = amplitude
 
-\[
-s(t) = 
-\begin{cases}
-A \cos(2\pi f_1 t), & \text{if } b(t) = 1 \\
-A \cos(2\pi f_2 t), & \text{if } b(t) = 0
-\end{cases}
-\]
+f₁ and f₀ = carrier frequencies
 
-You can also describe FSK as switching between two different sinusoidal signals depending on the binary input.
+t = time
 
----
 
 ### 4. Waveform Illustration (Include Diagram)
 
