@@ -23,6 +23,61 @@ A = amplitude
 f₁ and f₀ = carrier frequencies
 
 t = time
+### 4.FSK Modulation – Working Principle
+✅ Step-by-Step:
+
+1. **Input Signal**: A binary data stream (10110…) is given as input.
+
+2. **Carrier Generator**: Two sine wave generators (or a single VCO – Voltage-Controlled Oscillator) produce f1 and f0.
+
+3.**Switching Logic**:
+
+When bit is 1 → output is frequency f1
+
+When bit is 0 → output is frequency f0
+
+4. **FSK Signal**: The output is a continuous waveform that switches between f0 and f1 based on the bit stream.
+### 5. FSK Demodulation – Working Principle
+Demodulation is the reverse process—extracting the binary data from the modulated signal.
+✅ Step-by-Step:
+1. **Receiving FSK Signal**:
+The demodulator receives the signal containing frequency variations.
+2. **Band-Pass Filters**:
+The signal is passed through two filters:
+One tuned to **f1**
+
+One tuned to **f0**
+
+Each filter only allows its specific frequency to pass.
+3. **Envelope Detection**:
+Each filtered output goes to an envelope detector to convert it into a voltage level.
+4. **Decision Logic**:
+A comparator compares the strength (amplitude) of the two signals:
+Higher f1 → Output bit is **1**
+
+Higher f0 → Output bit is **0**
+5. **Recovered Digital Data**:
+The output is a reconstructed binary sequence, ideally matching the input.
+### 6. Block Diagram (Conceptual)
+
+Input Binary Data
+        |
+   FSK Modulator 
+        |
+   FSK Signal (f0/f1)
+        |
+   FSK Demodulator
+        |
+Reconstructed Binary Output
+
+![Untitled Diagram drawio](https://github.com/user-attachments/assets/b43c09c6-97f6-435c-bc31-b5f451cc28a9)
+
+
+
+6. **Recovered Digital Signal**: The demodulated binary sequence is reconstructed.
+  
+  
+
 
 
 ### 4. Waveform Illustration (Include Diagram)
