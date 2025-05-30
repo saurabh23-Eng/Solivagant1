@@ -33,7 +33,7 @@ f₁ and f₀ = carrier frequencies
 
 t = time
 
-### 4.FSK Modulation – Working Principle
+### 4. FSK Modulation – Working Principle
 
 ✅ Step-by-Step:
 
@@ -160,23 +160,23 @@ FSK is less affected by amplitude noise, making it reliable in noisy environment
 
 ### 8. Disadvantages of Frequency shift keying Modulation and Demodulation
 
-1. **Larger Bandwidth Requirement **
+1. **Larger Bandwidth Requirement**
 
 FSK needs more bandwidth than other modulation techniques like ASK or PSK.
 
-2.  **Complex Filter Design **
+2.  **Complex Filter Design**
 
 Accurate frequency filtering is required in the demodulator, increasing circuit complexity.
 
-3.  **Lower Spectral Efficiency **
+3.  **Lower Spectral Efficiency**
 
 FSK is less efficient in utilizing bandwidth compared to PSK or QAM.
 
-4.  **Difficult High-Speed Implementation **
+4.  **Difficult High-Speed Implementation**
 
 At higher data rates, maintaining accurate frequency shifts and detection becomes challenging.
 
-5.  **Susceptible to Doppler Shift **
+5.  **Susceptible to Doppler Shift**
 
 In mobile or wireless environments, frequency shifts due to motion can affect accuracy.
 
@@ -191,6 +191,8 @@ In mobile or wireless environments, frequency shifts due to motion can affect ac
 4. Paging systems
 
 5. Telemetry systems
+### 10. Conclusion
+Frequency Shift Keying is a reliable and efficient digital modulation technique where binary data is transmitted using two distinct frequencies. The FSK modulator converts digital input into a frequency-varying signal, and the demodulator successfully retrieves the original data by detecting frequency shifts. FSK offers good noise immunity, constant amplitude, and simple implementation, making it ideal for low-speed, short-distance digital communication systems such as Bluetooth, modems, and telemetry.
 
 ### 10. Summary
 
