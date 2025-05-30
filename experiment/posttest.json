@@ -32,6 +32,39 @@
       },
       "correctAnswer": "d",
       "explanation": "AM (Amplitude Modulation) is an analog modulation technique, unlike ASK, FSK, and PSK which are used in digital modulation."
+    },
+    {
+      "question": "What determines the minimum frequency separation in FSK?",
+      "answers": {
+        "a": "Baud rate",
+        "b": "Carrier amplitude",
+        "c": "Noise level",
+        "d": "Transmitter power"
+      },
+      "correctAnswer": "a",
+      "explanation": "The minimum frequency separation (Δf) between mark and space frequencies must be at least equal to the baud rate to maintain orthogonality and prevent intersymbol interference."
+    },
+    {
+      "question": "Which demodulation method is most commonly used for FSK in noisy environments?",
+      "answers": {
+        "a": "Envelope detection",
+        "b": "Phase-locked loop",
+        "c": "Correlation receiver",
+        "d": "Slope detection"
+      },
+      "correctAnswer": "c",
+      "explanation": "Correlation receivers (matched filters) provide optimal detection for FSK in noisy conditions by comparing received signals with expected mark/space waveforms."
+    },
+    {
+      "question": "What happens to BER performance when increasing frequency deviation in FSK?",
+      "answers": {
+        "a": "Improves up to a point then degrades",
+        "b": "Always improves",
+        "c": "Always worsens",
+        "d": "No effect"
+      },
+      "correctAnswer": "a",
+      "explanation": "Increasing frequency deviation improves BER by better distinguishing symbols, but excessive deviation wastes bandwidth and may increase susceptibility to other noise types."
     }
   ]
 }
