@@ -2,10 +2,47 @@
 <html>
 <head>
     <title>FSK Modulation and Demodulation Virtual Lab</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="main.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="script.js" defer></script>
+    <script src="main.js" defer></script>
+    <style>
+        .chart-container {
+            height: 180px;
+            width: 100%;
+            min-width: 250px;
+            max-width: 600px;
+            margin: 0 auto 18px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #e0e7ff;
+            padding: 12px 8px 8px 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .chart-container canvas {
+            height: 100% !important;
+            width: 100% !important;
+        }
+        .signals-grid {
+            display: flex;
+            flex-direction: row;
+            gap: 18px;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+        .chart-container {
+            flex: 1 1 0;
+            min-width: 220px;
+            max-width: 350px;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -108,7 +145,7 @@
             <div class="signals-grid">
                 <div class="chart-container">
                     <div style="text-align:center;font-weight:600;color:#2563eb;margin-bottom:2px;">Binary Input</div>
-                    <canvas id="binaryChart"></canvas>
+                    <canvas id="binaryChart" height="140"></canvas>
                 </div>
                 <div class="chart-container">
                     <div style="text-align:center;font-weight:600;color:#059669;margin-bottom:2px;">FSK Modulated Signal</div>
