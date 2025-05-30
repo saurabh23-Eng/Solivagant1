@@ -5,91 +5,196 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { display: flex; flex-wrap: wrap; gap: 20px; }
-        .panel { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-        .controls { margin: 10px 0; }
-        button { padding: 8px 15px; margin: 5px; cursor: pointer; }
-        input, select { margin: 0 10px; }
-        table { border-collapse: collapse; margin: 10px 0; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        .block-diagram { text-align: center; margin: 20px 0; }
-        .chart-container { width: 100%; height: 300px; }
-    </style>
-</head>  
+    <script src="script.js" defer></script>
+</head>
 <body>
-    <h1>Frequency Shift Keying (FSK) Modulation and Demodulation</h1>
-
-    <div class="block-diagram">
-        <h3>Block Diagram</h3>
-        <img src="FSK-Modulator-block-diagram.ppm" alt="FSK Block Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
-    </div>
-
     <div class="container">
-        <div class="panel" style="width: 30%;">
-            <h3>Controls</h3>
-            <div class="controls">
-                <label>Binary Input:</label>
-                <input type="text" id="binaryInput" value="10101010" pattern="[01]+">
+        <div class="panel controls-panel">
+            <h3>Lab Control Panel</h3>
+            <button class="btn btn-run" style="background:linear-gradient(90deg,#6366f1 0%,#06b6d4 100%);margin-bottom:10px;" onclick="document.getElementById('labInstructionsModal').style.display='block'">Lab Instructions</button>
+            <button class="btn btn-run" style="background:linear-gradient(90deg,#f59e42 0%,#f43f5e 100%);margin-bottom:10px;" onclick="document.getElementById('howToModal').style.display='block'">How to Perform Lab</button>
+            <div style="background:#f3f4f6;border-radius:10px;padding:16px 12px 12px 12px;box-shadow:0 2px 8px #e0e7ff;margin-bottom:10px;border:1.5px solid #c7d2fe;">
+              <div style="font-weight:600;color:#6366f1;margin-bottom:8px;text-align:center;font-size:1.08em;letter-spacing:0.5px;">Data Input for Experiment</div>
+              <div class="controls">
+                  <label for="binaryInput">Binary Input:</label>
+                  <input type="text" id="binaryInput" value="10101010" pattern="[01]+">
+              </div>
+              <div id="binaryInputError" style="display:none;color:#b91c1c;font-size:0.98em;margin:2px 0 0 0;padding-left:2px;"></div>
+              <div class="controls">
+                  <label for="bitDuration">Bit Duration:</label>
+                  <input type="number" id="bitDuration" value="100" min="10" max="1000"> ms
+              </div>
+              <div class="controls">
+                  <label for="freqMark">Mark Freq (f1):</label>
+                  <input type="number" id="freqMark" value="1000" min="100" max="5000"> Hz
+              </div>
+              <div class="controls">
+                  <label for="freqSpace">Space Freq (f0):</label>
+                  <input type="number" id="freqSpace" value="500" min="100" max="5000"> Hz
+              </div>
+              <div class="controls">
+                  <label for="noiseLevel">Noise Level:</label>
+                  <input type="range" id="noiseLevel" min="0" max="1" step="0.1" value="0.2">
+                  <span id="noiseValue">0.2</span>
+              </div>
+              <div style="display:flex;gap:10px;justify-content:center;margin-top:8px;">
+                <button class="btn btn-run" onclick="runSimulation()">Run Simulation</button>
+                <button class="btn btn-reset" onclick="clearAll()">Reset</button>
+              </div>
             </div>
-            <div class="controls">
-                <label>Bit Duration (ms):</label>
-                <input type="number" id="bitDuration" value="100" min="10" max="1000">
-            </div>
-            <div class="controls">
-                <label>Mark Freq (f1):</label>
-                <input type="number" id="freqMark" value="1000" min="100" max="5000"> Hz
-            </div>
-            <div class="controls">
-                <label>Space Freq (f0):</label>
-                <input type="number" id="freqSpace" value="500" min="100" max="5000"> Hz
-            </div>
-            <div class="controls">
-                <label>Noise Level:</label>
-                <input type="range" id="noiseLevel" min="0" max="1" step="0.1" value="0.2">
-                <span id="noiseValue">0.2</span>
-            </div>
-            
-            <button onclick="runSimulation()">Run Simulation</button>
-            <button onclick="clearAll()">Reset</button>
-            
-            <h3>Output Results</h3>
             <div id="berDisplay">Bit Error Rate: 0%</div>
         </div>
-        
-        <div class="panel" style="flex-grow: 1;">
-            <h3>Signals</h3>
-            <div class="chart-container"><canvas id="binaryChart"></canvas></div>
-            <div class="chart-container"><canvas id="fskChart"></canvas></div>
-            <div class="chart-container"><canvas id="demodChart"></canvas></div>
-            <div class="chart-container"><canvas id="outputChart"></canvas></div>
-
-            <div class="panel" style="margin-top: 20px;">
+        <div class="main-panel">
+            <h1 style="margin-top:0; color:#2563eb; text-align:center; font-size:1.5em;">Frequency Shift Keying (FSK) Modulation and Demodulation</h1>
+            <div class="block-diagram" style="text-align:center;margin-bottom:18px;">
+                <h3 style="margin-bottom:6px;">Block Diagram</h3>
+                <div style="display:flex;justify-content:center;align-items:center;">
+                  <svg id="fskBlockDiagram" width="700" height="120" viewBox="0 0 700 120" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e0e7ff;cursor:pointer">
+                    <!-- Binary Data Source -->
+                    <g class="block" data-label="Binary Data">
+                      <rect x="10" y="35" width="80" height="40" rx="10" fill="#e0e7ff" stroke="#2563eb" stroke-width="2"/>
+                      <foreignObject x="10" y="35" width="80" height="40">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:center;justify-content:center;height:40px;width:80px;text-align:center;word-break:break-word;font-size:13px;font-weight:bold;color:#2563eb;line-height:1.1;">Binary Data</div>
+                      </foreignObject>
+                    </g>
+                    <!-- Arrow to Modulator -->
+                    <line x1="90" y1="55" x2="130" y2="55" stroke="#2563eb" stroke-width="1.2" marker-end="url(#arrowSmall)"/>
+                    <!-- FSK Modulator -->
+                    <g class="block" data-label="FSK Modulator">
+                      <rect x="130" y="25" width="110" height="60" rx="10" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+                      <foreignObject x="130" y="25" width="110" height="60">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:center;justify-content:center;height:60px;width:110px;text-align:center;word-break:break-word;font-size:13px;font-weight:bold;color:#059669;line-height:1.1;">FSK Modulator</div>
+                      </foreignObject>
+                    </g>
+                    <!-- Arrow to Channel -->
+                    <line x1="240" y1="55" x2="290" y2="55" stroke="#059669" stroke-width="1.2" marker-end="url(#arrowSmall)"/>
+                    <!-- AWGN Channel -->
+                    <g class="block" data-label="AWGN Channel">
+                      <rect x="290" y="30" width="70" height="50" rx="10" fill="#fef9c3" stroke="#b45309" stroke-width="2"/>
+                      <foreignObject x="290" y="30" width="70" height="50">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:center;justify-content:center;height:50px;width:70px;text-align:center;word-break:break-word;font-size:13px;font-weight:bold;color:#b45309;line-height:1.1;">AWGN Channel</div>
+                      </foreignObject>
+                    </g>
+                    <!-- Arrow to Demodulator -->
+                    <line x1="360" y1="55" x2="410" y2="55" stroke="#b45309" stroke-width="1.2" marker-end="url(#arrowSmall)"/>
+                    <!-- FSK Demodulator -->
+                    <g class="block" data-label="FSK Demodulator">
+                      <rect x="410" y="25" width="130" height="60" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+                      <foreignObject x="420" y="25" width="110" height="60">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:center;justify-content:center;height:60px;width:110px;text-align:center;word-break:break-word;font-size:13px;font-weight:bold;color:#dc2626;line-height:1.1;">FSK Demodulator</div>
+                      </foreignObject>
+                    </g>
+                    <!-- Arrow to Output -->
+                    <line x1="540" y1="55" x2="630" y2="55" stroke="#dc2626" stroke-width="1.2" marker-end="url(#arrowSmall)"/>
+                    <!-- Output (Recovered Data) -->
+                    <g class="block" data-label="Output(Recovered) ">
+                      <rect x="630" y="25" width="60" height="70" rx="10" fill="#f3f4f6" stroke="#ea580c" stroke-width="2"/>
+                      <foreignObject x="630" y="25" width="60" height="70">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:70px;width:60px;text-align:center;word-break:break-word;font-size:13px;font-weight:bold;color:#ea580c;line-height:1.1;">Output<br/><span style="font-size:11px;font-weight:normal;"></span></div>
+                      </foreignObject>
+                    </g>
+                    <!-- Arrowhead Definition -->
+                    <defs>
+                      <marker id="arrowSmall" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L6,3 L0,6 L2,3 Z" fill="#6366f1" />
+                      </marker>
+                    </defs>
+                    <!-- Interactive highlights -->
+                    <rect id="highlightBox" x="0" y="0" width="0" height="0" fill="#6366f1" fill-opacity="0.12" style="display:none;pointer-events:none;"/>
+                  </svg>
+                </div>
+                <div style="font-size:15px;color:#374151;margin-top:10px;">Block diagram: <span style="color:#2563eb;font-weight:600">Binary Data</span> is <span style="color:#059669;font-weight:600">FSK modulated</span>, passed through a <span style="color:#b45309;font-weight:600">noisy channel (AWGN)</span>, <span style="color:#dc2626;font-weight:600">demodulated</span>, and the <span style="color:#ea580c;font-weight:600">output is recovered</span>.</div>
+            </div>
+            <div class="signals-grid">
+                <div class="chart-container">
+                    <div style="text-align:center;font-weight:600;color:#2563eb;margin-bottom:2px;">Binary Input</div>
+                    <canvas id="binaryChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div style="text-align:center;font-weight:600;color:#059669;margin-bottom:2px;">FSK Modulated Signal</div>
+                    <canvas id="fskChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div style="text-align:center;font-weight:600;color:#dc2626;margin-bottom:2px;">Demodulated Paths</div>
+                    <canvas id="demodChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div style="text-align:center;font-weight:600;color:#ea580c;margin-bottom:2px;">Recovered Binary</div>
+                    <canvas id="outputChart"></canvas>
+                </div>
+            </div>
+            <div class="panel report-panel">
                 <h3>Report</h3>
                 <div id="reportContent">
                     <p>No simulation run yet.</p>
                 </div>
-                <button onclick="downloadReport()">Download Report as PDF</button>
+                <button class="download-btn" onclick="downloadReport()">Download Report as PDF</button>
             </div>
         </div>
     </div>
-
+    <!-- Lab Instructions Modal -->
+    <div id="labInstructionsModal" style="display:none;position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);justify-content:center;align-items:center;">
+      <div style="background:#fff;padding:28px 32px 24px 32px;border-radius:12px;max-width:520px;width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
+        <span onclick="document.getElementById('labInstructionsModal').style.display='none'" style="position:absolute;top:10px;right:18px;font-size:2em;cursor:pointer;color:#888">&times;</span>
+        <h2 style="color:#2563eb;font-size:1.4em;margin-bottom:10px;">Lab Instructions: FSK Modulation and Demodulation</h2>
+        <ol style="color:#222;font-size:1em;line-height:1.7;margin-left:1em;">
+          <li><b>Objective:</b> Study and simulate FSK modulation/demodulation, observe noise effect, and calculate BER.</li>
+          <li><b>Theory:</b> FSK uses two frequencies to represent binary 1 and 0. Demodulation recovers the original data.</li>
+          <li><b>Block Diagram:</b> Binary data → FSK modulator → AWGN channel → FSK demodulator → Output.</li>
+          <li><b>Circuit Diagram:</b><br>
+            <div style="display:flex;justify-content:center;margin:16px 0;">
+              <img src="Untitled Diagram.drawio.png" alt="FSK Modulator and Demodulator Circuit Diagram" style="max-width:100%;height:auto;border-radius:8px;box-shadow:0 2px 8px #e0e7ff;border:1px solid #cbd5e1;max-height:180px;">
+            </div>
+            <div style="color:#555;font-size:0.98em;text-align:center;margin-bottom:8px;"></div>
+          </li>
+          <li><b>Steps:</b>
+            <ul style="margin-left:1em;">
+              <li>Enter a binary sequence (e.g., 10101010).</li>
+              <li>Set bit duration, mark/space frequencies, and noise level.</li>
+              <li>Click <b>Run Simulation</b> to view signals and BER.</li>
+            </ul>
+          </li>
+          <li><b>Analysis:</b> See how noise affects BER. Download the report if needed.</li>
+        </ol>
+      </div>
+    </div>
+    <!-- How to Perform Lab Modal -->
+    <div id="howToModal" style="display:none;position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);justify-content:center;align-items:center;">
+      <div style="background:#fff;padding:28px 32px 24px 32px;border-radius:12px;max-width:520px;width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
+        <span onclick="document.getElementById('howToModal').style.display='none'" style="position:absolute;top:10px;right:18px;font-size:2em;cursor:pointer;color:#888">&times;</span>
+        <h2 style="color:#f59e42;font-size:1.4em;margin-bottom:10px;">How to Perform the Lab</h2>
+        <ol style="color:#222;font-size:1em;line-height:1.7;margin-left:1em;">
+          <li>Click <b>Lab Instructions</b> to read the theory and objective.</li>
+          <li>Enter your desired binary input (e.g., 10101010).</li>
+          <li>Set the bit duration, mark frequency (f1), space frequency (f0), and noise level as needed.</li>
+          <li>Click <b>Run Simulation</b> to view the FSK modulated, demodulated, and recovered signals.</li>
+          <li>Check the Bit Error Rate (BER) displayed below the controls.</li>
+          <li>Download your report as a PDF for documentation.</li>
+        </ol>
+      </div>
+    </div>
     <script>
         const binaryCtx = document.getElementById('binaryChart').getContext('2d');
         const fskCtx = document.getElementById('fskChart').getContext('2d');
         const demodCtx = document.getElementById('demodChart').getContext('2d');
         const outputCtx = document.getElementById('outputChart').getContext('2d');
 
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            elements: { line: { tension: 0 } }
+        };
+
         const binaryChart = new Chart(binaryCtx, {
             type: 'line',
             data: { datasets: [{ label: 'Binary Input', borderColor: 'blue', data: [], borderWidth: 1, pointRadius: 0 }] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: -0.1, max: 1.1 } } }
+            options: { ...chartOptions, scales: { y: { min: -0.1, max: 1.1 } } }
         });
         const fskChart = new Chart(fskCtx, {
             type: 'line',
             data: { datasets: [{ label: 'FSK Signal', borderColor: 'green', data: [], borderWidth: 1, pointRadius: 0 }] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: -1.5, max: 1.5 } } }
+            options: { ...chartOptions, scales: { y: { min: -1.5, max: 1.5 } } }
         });
         const demodChart = new Chart(demodCtx, {
             type: 'line',
@@ -97,24 +202,39 @@
                 { label: 'f1 Path', borderColor: 'red', data: [], borderWidth: 1, pointRadius: 0 },
                 { label: 'f0 Path', borderColor: 'purple', data: [], borderWidth: 1, pointRadius: 0 }
             ]},
-            options: { responsive: true, maintainAspectRatio: false }
+            options: chartOptions
         });
         const outputChart = new Chart(outputCtx, {
             type: 'line',
             data: { datasets: [{ label: 'Recovered Binary', borderColor: 'orange', data: [], borderWidth: 1, pointRadius: 0 }] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: -0.1, max: 1.1 } } }
+            options: { ...chartOptions, scales: { y: { min: -0.1, max: 1.1 } } }
         });
 
         document.getElementById('noiseLevel').oninput = function() {
             document.getElementById('noiseValue').textContent = this.value;
         };
 
+        const binaryInput = document.getElementById('binaryInput');
+        const binaryInputError = document.getElementById('binaryInputError');
+
+        binaryInput.addEventListener('input', function() {
+          if (/^[01]*$/.test(this.value)) {
+            binaryInputError.style.display = 'none';
+          } else {
+            binaryInputError.style.display = 'block';
+            binaryInputError.textContent = 'Invalid input! Only 0 and 1 are allowed.';
+          }
+        });
+
         function runSimulation() {
             const binaryData = document.getElementById('binaryInput').value;
             if (!/^[01]+$/.test(binaryData)) {
-                alert("Please enter only binary digits (0s and 1s)");
+                binaryInputError.style.display = 'block';
+                binaryInputError.textContent = 'Invalid input! Please enter only binary digits (0s and 1s).';
+                binaryInput.focus();
                 return;
             }
+            binaryInputError.style.display = 'none';
 
             const bitDuration = parseInt(document.getElementById('bitDuration').value);
             const freqMark = parseInt(document.getElementById('freqMark').value);
@@ -234,8 +354,8 @@
                 pdf.setFontSize(12);
                 pdf.text(label, 10, y);
                 y += 5;
-                pdf.addImage(imgData, "PNG", 10, y, 180, 60);
-                y += 65;
+                pdf.addImage(imgData, "PNG", 10, y, 180, 40);
+                y += 45;
             };
 
             await addChartImage("binaryChart", "Binary Input Signal");
@@ -245,6 +365,18 @@
 
             pdf.save("FSK_Report.pdf");
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+          // Close modals on outside click
+          window.onclick = function(event) {
+            if (event.target === document.getElementById('labInstructionsModal')) {
+              document.getElementById('labInstructionsModal').style.display = 'none';
+            }
+            if (event.target === document.getElementById('howToModal')) {
+              document.getElementById('howToModal').style.display = 'none';
+            }
+          };
+        });
     </script>
 </body>
 </html>
