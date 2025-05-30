@@ -1,37 +1,70 @@
 {
   "questions": [
     {
-      "question": "In FSK, binary 1 and 0 are represented by:",
+      "question": "What does FSK stand for in digital communication?",
       "answers": {
-        "a": "Same frequency",
-        "b": "Different amplitudes",
-        "c": "Two distinct frequencies",
-        "d": "Two different phases"
+        "a": "Frequency Shift Keying",
+        "b": "Frequency Signal Keying",
+        "c": "Fast Signal Keying",
+        "d": "Frequency Switching Keying"
       },
-      "correctAnswer": "c",
-      "explanation": "In Frequency Shift Keying (FSK), binary 1 and 0 are represented by two different frequencies. This allows the receiver to distinguish between the bits based on frequency changes."
+      "correctAnswer": "a",
+      "explanation": "FSK stands for Frequency Shift Keying, a digital modulation technique where data is transmitted through discrete frequency changes."
     },
     {
-      "question": "FSK modulation is primarily used for:",
+      "question": "In FSK, how are binary '1' and '0' typically represented?",
       "answers": {
-        "a": "Audio transmission",
-        "b": "Short-range analog communication",
-        "c": "Digital data transmission",
-        "d": "High-frequency analog signals"
+        "a": "Different amplitudes",
+        "b": "Different frequencies",
+        "c": "Different phases",
+        "d": "Different time periods"
       },
-      "correctAnswer": "c",
-      "explanation": "FSK is commonly used for transmitting digital data over communication channels because it is more robust to noise compared to amplitude-based schemes."
+      "correctAnswer": "b",
+      "explanation": "FSK represents binary digits using different frequencies - one frequency for '1' (mark) and another for '0' (space)."
     },
     {
       "question": "What is the main advantage of FSK over ASK?",
       "answers": {
-        "a": "Less bandwidth",
+        "a": "Higher data rate",
         "b": "Better noise immunity",
-        "c": "Simpler hardware",
-        "d": "Lower power consumption"
+        "c": "Lower bandwidth requirement",
+        "d": "Simpler circuit design"
       },
       "correctAnswer": "b",
-      "explanation": "FSK has better noise immunity than Amplitude Shift Keying (ASK) because frequency variations are less affected by noise than amplitude changes."
+      "explanation": "FSK has better noise immunity than ASK because information is encoded in frequency variations which are less affected by amplitude noise."
+    },
+    {
+      "question": "Which component is essential in an FSK demodulator?",
+      "answers": {
+        "a": "Phase detector",
+        "b": "Frequency discriminator",
+        "c": "Amplitude limiter",
+        "d": "Time delay circuit"
+      },
+      "correctAnswer": "b",
+      "explanation": "A frequency discriminator is key in FSK demodulation as it converts frequency variations back to the original digital signal."
+    },
+    {
+      "question": "What is the term for the frequency difference between mark and space frequencies in FSK?",
+      "answers": {
+        "a": "Frequency gap",
+        "b": "Frequency deviation",
+        "c": "Frequency shift",
+        "d": "Frequency hop"
+      },
+      "correctAnswer": "c",
+      "explanation": "The frequency shift is the difference between the mark (1) and space (0) frequencies in an FSK system."
+    },
+    {
+      "question": "Which of these is a common application of FSK modulation?",
+      "answers": {
+        "a": "FM radio broadcasting",
+        "b": "Telephone modems",
+        "c": "Digital TV transmission",
+        "d": "Fiber optic communication"
+      },
+      "correctAnswer": "b",
+      "explanation": "FSK was widely used in telephone modems for data communication over analog telephone lines."
     }
   ]
 }
