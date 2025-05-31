@@ -1,1 +1,1 @@
-## Study of Frequency Shift Keying (FSK) Modulator and Demodulator.
+## To Study of Frequency Shift Keying (FSK) Modulator and Demodulator.
