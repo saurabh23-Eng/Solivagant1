@@ -6,7 +6,7 @@
 <b>Discipline | <b>Electronics and Communication(BEC 451)
 :--|:--|
 <b> Lab | <b>Communication lab
-<b> Experiment|     <b> 01.Study of frequency shift keying modulator and demodulator.
+<b> Experiment|     <b> Study of frequency shift keying modulator and demodulator.
 
 ### About the Experiment 
 
