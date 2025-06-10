@@ -1,5 +1,3 @@
-## Theory
-
 ### 1. Introduction to Digital Modulation
 
 In digital communication, data is transmitted in binary form (0s and 1s). To transmit this data over analog channels like radio or telephone lines, it must be converted into a format suitable for such transmission. This process is called modulation.
