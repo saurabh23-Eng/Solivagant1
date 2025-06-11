@@ -33,8 +33,6 @@ t = time
 
 ### 4. FSK Modulation – Working Principle
 
-✅ Step-by-Step:
-
 1. **Input Signal**: A binary data stream (10110…) is given as input.
 
 2. **Carrier Generator**: Two sine wave generators (or a single VCO – Voltage-Controlled Oscillator) produce f1 and f0.
@@ -50,8 +48,6 @@ When bit is 0 → output is frequency f0
 ### 5. FSK Demodulation – Working Principle
 
 Demodulation is the reverse process—extracting the binary data from the modulated signal.
-
-✅ Step-by-Step:
 
 1. **Receiving FSK Signal**:
 
