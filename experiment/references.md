@@ -1,4 +1,4 @@
-## References
+
 
 1. Haykin, S. (2001). Communication Systems, 4th Edition. Wiley.
 2. Proakis, J. G., & Salehi, M. (2008). Digital Communications, 5th Edition. McGraw-Hill.
