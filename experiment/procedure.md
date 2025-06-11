@@ -1,4 +1,4 @@
-## Procedure 
+ 
 1. Read lab instruction
 2. Data input for the experiment
 3. Click on simulation button
